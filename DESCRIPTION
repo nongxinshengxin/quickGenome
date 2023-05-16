@@ -5,7 +5,7 @@ Version: 0.1.0
 Author: c(
        person(given ="Chengyu", family ="Gao",role = c("aut", "cre"),),
        person(given ="Haoming", family ="Wang",role = c("aut")))
-Maintainer: Nongxin Bioinfo Studio <https://github.com/nongxinshengxin>
+Maintainer: Nongxin Bioinfo Studio <nongxinshengxin@163.com>
 Description: quickGenome can be used to calculate genome size, N50, contig count, GC content and other information, 
     to detect chromosomal telomere positions, to calculate the number of gene exons, 
     to calculate gene length distribution, to extract gene, mRNA, CDS and protein sequences based on GFF3 files.
