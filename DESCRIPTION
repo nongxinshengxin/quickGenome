@@ -9,7 +9,7 @@ Maintainer: Nongxin Bioinfo Studio <https://github.com/nongxinshengxin>
 Description: quickGenome can be used to calculate genome size, N50, contig count, GC content and other information, 
     to detect chromosomal telomere positions, to calculate the number of gene exons, 
     to calculate gene length distribution, to extract gene, mRNA, CDS and protein sequences based on GFF3 files.
-    The implementation of `quickGenome` function relies on `Biostrings` and `ggtree`.
+    The implementation of `quickGenome` function relies on `Biostrings` and `GenomicFeatures`.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
