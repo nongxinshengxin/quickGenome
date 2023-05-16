@@ -1,0 +1,21 @@
+Package: quickGenome
+Type: Package
+Title: an R package for the convenient accounting of genomic information and extraction of gene sequences
+Version: 0.1.0
+Author: c(
+       person(given ="Chengyu", family ="Gao",role = c("aut", "cre"),),
+       person(given ="Haoming", family ="Wang",role = c("aut")))
+Maintainer: Nongxin Bioinfo Studio <https://github.com/nongxinshengxin>
+Description: quickGenome can be used to calculate genome size, N50, contig count, GC content and other information, 
+    to detect chromosomal telomere positions, to calculate the number of gene exons, 
+    to calculate gene length distribution, to extract gene, mRNA, CDS and protein sequences based on GFF3 files.
+    The implementation of `quickGenome` function relies on `Biostrings` and `ggtree`.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Depends: 
+    R (>= 2.10)
+Imports:
+    tidyverse (>= 2.0.0),
+    stringr
+RoxygenNote: 7.2.3
