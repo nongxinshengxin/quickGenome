@@ -10,6 +10,9 @@
 #' @examples
 extract_gene<-function(fasta,gff,outputfile){
   DNA<-readDNAStringSet(fasta,format="fasta")
+  DNAdf<-as.data.frame(DNA@ranges)
+  DNAdf<-DNAdf%>%select(start,end,width,names)%>%
+    mutate(position=str_split(DNAdf$names, " ", simplify = TRUE)[,1])
 
   gffdf<-read_delim(gff,delim = "\t",col_names = F)%>%
     drop_na()%>%
@@ -17,7 +20,7 @@ extract_gene<-function(fasta,gff,outputfile){
     select(c(1,3,4,5,7,9))%>%
     rename_with(~c("chr","type","start","end","strand","attribution"),c(1:6))
 
-  if (!"gene" %in% gffdf$type | !"CDS" %in% gffdf$type | !"exon" %in% gffdf$type){
+  if (!"gene" %in% gffdf$type){
     stop("GFF format is wrong, please check the format!")
   }
 
@@ -29,6 +32,7 @@ extract_gene<-function(fasta,gff,outputfile){
   seq_c<-c()
   for (i in 1:nrow(genedf)){
     chr=as.character(genedf[i,1])
+    chr=DNAdf[which(DNAdf$position==Chr),4]
     start=as.integer(genedf[i,3])
     end=as.integer(genedf[i,4])
     strand=genedf[i,5]

@@ -13,6 +13,9 @@
 extract_mRNA<-function(fasta,gff,outputfile){
   options(warn = -1)
   DNA<-readDNAStringSet(fasta,format="fasta")
+  DNAdf<-as.data.frame(DNA@ranges)
+  DNAdf<-DNAdf%>%select(start,end,width,names)%>%
+    mutate(position=str_split(DNAdf$names, " ", simplify = TRUE)[,1])
 
   gffdf<-read_delim(gff,delim = "\t",col_names = F)%>%
     drop_na()%>%
@@ -21,7 +24,7 @@ extract_mRNA<-function(fasta,gff,outputfile){
     rename_with(~c("chr","type","start","end","strand","attribution"),c(1:6))
 
 
-  if (!"gene" %in% gffdf$type | !"CDS" %in% gffdf$type | !"exon" %in% gffdf$type){
+  if (!"exon" %in% gffdf$type){
     stop("GFF format is wrong, please check the format!")
   }
 
@@ -32,6 +35,7 @@ extract_mRNA<-function(fasta,gff,outputfile){
   exon_c<-c()
   for (i in 1:nrow(exondf)){
     chr=as.character(exondf[i,1])
+    chr=DNAdf[which(DNAdf$position==Chr),4]
     start=as.integer(exondf[i,3])
     end=as.integer(exondf[i,4])
     strand=exondf[i,5]

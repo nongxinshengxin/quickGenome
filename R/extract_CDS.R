@@ -22,6 +22,9 @@ library(Biostrings)
 extract_CDS<-function(fasta,gff,outputfile,translation=FALSE){
   options(warn = -1)
   DNA<-readDNAStringSet(fasta,format="fasta")
+  DNAdf<-as.data.frame(DNA@ranges)
+  DNAdf<-DNAdf%>%select(start,end,width,names)%>%
+    mutate(position=str_split(DNAdf$names, " ", simplify = TRUE)[,1])
 
   gffdf<-read_delim(gff,delim = "\t",col_names = F)%>%
     drop_na()%>%
@@ -30,7 +33,7 @@ extract_CDS<-function(fasta,gff,outputfile,translation=FALSE){
     rename_with(~c("chr","type","start","end","strand","attribution"),c(1:6))
 
 
-  if (!"gene" %in% gffdf$type | !"CDS" %in% gffdf$type | !"exon" %in% gffdf$type){
+  if (!"CDS" %in% gffdf$type){
     stop("GFF format is wrong, please check the format!")
   }
 
@@ -41,6 +44,7 @@ extract_CDS<-function(fasta,gff,outputfile,translation=FALSE){
   cds_c<-c()
   for (i in 1:nrow(cdsdf)){
     chr=as.character(cdsdf[i,1])
+    chr=DNAdf[which(DNAdf$position==Chr),4]
     start=as.integer(cdsdf[i,3])
     end=as.integer(cdsdf[i,4])
     strand=cdsdf[i,5]
