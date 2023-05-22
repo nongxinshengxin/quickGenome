@@ -203,7 +203,7 @@ The function consists of three parameters: fasta, gff, outputfile. fasta takes a
 extract_gene(fasta = "test.fasta",gff = "test.gff",outputfile = "genes.fasta")
 ```
 
-### extract_mRNA()
+### extract_mRNA
 Same arguments as extract_gene() function.
 
 ```{}
