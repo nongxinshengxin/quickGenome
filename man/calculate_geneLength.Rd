@@ -15,9 +15,9 @@ calculate_geneLength(
 \arguments{
 \item{filepath}{Input GFF3 or GTF file. Can be a path to a file, or an URL, or a connection object, or a GFF3File or GTFFile object.}
 
-\item{format}{Format of the input file. Accepted values are: "auto" (the default) for auto-detection of the format, "gff3", or "gtf". Use "gff3" or "gtf" only if auto-detection failed.}
+\item{format}{Format of the input file. Accepted values are: "gff" (the default), or "gtf".}
 
-\item{type}{Counting "gene"" (the default) length or "transcript" length.}
+\item{type}{Counting "genes" (the default) length or "transcripts" length.}
 
 \item{bin}{Length of sliding window. Default is 500}
 

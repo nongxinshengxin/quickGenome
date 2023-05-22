@@ -2,9 +2,9 @@
 % Please edit documentation in R/extract_fasta.R
 \name{extract_fasta}
 \alias{extract_fasta}
-\title{Title}
+\title{Extracting sequences from fasta files based on sequence names.}
 \usage{
-extract_fasta(fasta, genelist, outputfile, Negate = FALSE)
+extract_fasta(fasta, genelist, outputfile, Negate = FALSE, Str = FALSE)
 }
 \arguments{
 \item{fasta}{A character vector (of arbitrary length when reading, of length 1 when writing) containing the path(s) to the fasta file(s) to read. Reading files in gzip format (which usually have the '.gz' extension) is supported.
@@ -13,16 +13,16 @@ Note that special values like "" or "|cmd" (typically supported by other I/O fun
 
 Note the format of file must be "fasta" or fasta file in gzip.}
 
-\item{genelist}{}
+\item{genelist}{A string containing the path to a file with a list of gene names (or other sequence names).}
 
 \item{outputfile}{A character vector (of arbitrary length when reading, of length 1 when writing) containing the path(s) to the fasta file(s) to write.}
 
-\item{Negate}{TRUE or FALSE (the default).}
+\item{Negate}{TRUE or FALSE (the default). If TRUE, all sequences will be extracted except for those contained in the genelist file.}
 
-\item{Str}{TRUE or FALSE (the default).}
+\item{Str}{TRUE or FALSE (the default). If TRUE, the genelist parameter requires a string containing the name of a sequence, or a vector containing multiple strings of sequence names.}
 }
 \description{
-Title
+Extracting sequences from fasta files based on sequence names.
 }
 \references{
 \enumerate{
