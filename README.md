@@ -1,7 +1,7 @@
 # quickGenome <img src="image/quickGenome.jpg" align="right" alt="quickGenome logo" style="height: 140px;">
 ![Author](https://img.shields.io/badge/Author-nongxinshengxin-blue.svg)
 
-[English](README.md)
+[English](README.md) | [Chinese](中文文档.md)
 ## Overview
 quickGenome is an R package for the convenient accounting of genomic information and extraction of gene sequences. quickGenome can be used to calculate genome size, N50, contig count, GC content and other information, to detect chromosomal telomere positions, to calculate the number of gene exons, to calculate gene length distribution, to extract gene, mRNA, CDS and protein sequences based on GFF3 files.
 The implementation of `quickGenome` function relies on `Biostrings` and `GenomicFeatures`.
