@@ -19,7 +19,7 @@ library(Biostrings)
 #' @importFrom tidyr drop_na pivot_wider
 #' @importFrom dplyr `%>%` filter select rename_with mutate any_vars filter_all
 #' @examples
-extract_CDS<-function(fasta,gff,outputfile,translation=FALSE){
+extract_CDS<-function(fasta,gff,outputfile,translation=FALSE,if.fuzzy.codon="error"){
   options(warn = -1)
   DNA<-readDNAStringSet(fasta,format="fasta")
   DNAdf<-as.data.frame(DNA@ranges)
@@ -119,14 +119,14 @@ extract_CDS<-function(fasta,gff,outputfile,translation=FALSE){
         if (!is.null(unlist(cds_c[1,i]))){
           seq=paste(unlist(cds_c[1,i]),collapse = "")
           seq=DNAString(seq)
-          seq=translate(seq,if.fuzzy.codon="X")
+          seq=translate(seq,if.fuzzy.codon=if.fuzzy.codon)
           seq=toString(seq)
         }
         if (!is.null(unlist(cds_c[2,i]))){
           seq=paste(unlist(cds_c[2,i]),collapse = "")
           seq=DNAString(seq)
           seq=reverseComplement(seq)
-          seq=translate(seq,if.fuzzy.codon="X")
+          seq=translate(seq,if.fuzzy.codon=if.fuzzy.codon)
           seq=toString(seq)
         }
         seq_c<-append(seq_c,seq)
@@ -139,14 +139,14 @@ extract_CDS<-function(fasta,gff,outputfile,translation=FALSE){
         if (!is.null(unlist(cds_c[2,i]))){
           seq=paste(unlist(cds_c[2,i]),collapse = "")
           seq=DNAString(seq)
-          seq=translate(seq,if.fuzzy.codon="X")
+          seq=translate(seq,if.fuzzy.codon=if.fuzzy.codon)
           seq=toString(seq)
         }
         if (!is.null(unlist(cds_c[1,i]))){
           seq=paste(unlist(cds_c[1,i]),collapse = "")
           seq=DNAString(seq)
           seq=reverseComplement(seq)
-          seq=translate(seq,if.fuzzy.codon="X")
+          seq=translate(seq,if.fuzzy.codon=if.fuzzy.codon)
           seq=toString(seq)
         }
         seq_c<-append(seq_c,seq)
