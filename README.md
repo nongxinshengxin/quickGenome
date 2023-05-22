@@ -39,7 +39,6 @@ devtools::install_github("nongxinshengxin/quickGenome")
 - **extract_fasta()**  Extracts sequences from fasta files based on sequence names.
 
 ## Application
-To make it easier for users to understand and use `quickGenome`, we have used the Arabidopsis genome and structure annotation gff file as an example.
 ### genome_basic_Info
 This function will print the genome information to the window. The function has only one argument, filepath, which requires a string containing the path to the fasta file. In addition to the fasta file, its gzip archive, fasta.gz, can also be read.
 
@@ -181,6 +180,79 @@ calculate_exonNum(filepath = "TAIR10_GFF3_genes.gff",format = "gff",collapse = T
 
 ### calculate_geneLength
 This function returns a data frame containing the distribution of gene (or transcript) lengths under a sliding window. The function takes five parameters: filepath, format, type, bin, threshold. filepath and format are the same as the calculate_exonNum() function; the type parameter is followed by the string "transcripts " or "genes" (the default), indicating whether the gene length or transcript length is being calculated; the bin parameter is followed by an integer indicating the length of the sliding window, the default being 500; the threshold parameter is followed by an integer indicating that genes exceeding the threshold length are collapsed are folded together and counted. The default is 4000 bp.
+
+```{}
+calculate_geneLength(filepath = "test.gff",format = "gff", type = "genes",bin = 500,threshold = 4000)
+
+#       range number
+# 1     1-500    783
+# 2  501-1000   2262
+# 3 1001-1500   2799
+# 4 1501-2000   2231
+# 5 2001-2500   1132
+# 6 2501-3000    645
+# 7 3001-3500    398
+# 8 3501-4000    259
+# 9    > 4000    518
+```
+
+### extract_gene
+The function consists of three parameters: fasta, gff, outputfile. fasta takes a string containing the path to the fasta file; gff takes a string containing the path to the gff file, note that currently **only gff3 format** is supported; outputfile takes a string containing the path to the output file The outputfile parameter should be a string containing the path to the output file, which is a fasta file.
+
+```{}
+extract_gene(fasta = "test.fasta",gff = "test.gff",outputfile = "genes.fasta")
+```
+
+### extract_mRNA()
+Same arguments as extract_gene() function.
+
+```{}
+extract_mRNA(fasta = "test.fasta",gff = "test.gff",outputfile = "mRNAs.fasta")
+```
+
+### extract_upstream
+This function takes four parameters: fasta, gff, outputfile, range. the first three parameters are the same as extract_gene(); the range parameter takes an integer representing the length of the extracted upstream sequence, default 2000 bp.
+
+```{}
+extract_upstream(fasta = "test.fasta",gff = "test.gff",outputfile = "upstream.fasta",range=2000)
+```
+
+### extract_downstream
+This function takes four parameters: fasta, gff, outputfile, range. the first three parameters are the same as extract_gene(); the range parameter takes an integer representing the length of the extracted downstream sequence, default 2000 bp.
+
+```{}
+extract_downstream(fasta = "test.fasta",gff = "test.gff",outputfile = "downstream.fasta",range=2000)
+```
+
+### extract_CDS
+The first three parameters are the same as extract_gene(); the translation parameter is followed by TRUE or FALSE (the default), if TRUE, the CDS sequence will be translated into a protein sequence.
+
+```{}
+#translation=FALSE
+extract_CDS(fasta = "test.fasta",gff = "test.gff",outputfile = "CDS.fasta",translation = FALSE)
+```
+
+
+```{}
+#translation=TRUE
+extract_CDS(fasta = "test.fasta",gff = "test.gff",outputfile = "pep.fasta",translation = FALSE)
+```
+
+### extract_fasta
+This function contains five parameters fasta, genelist, outputfile, Negate, Str. fasta and outputfile parameters are the same as extract_gene(); genelist parameter requires a string containing the path of the file with the list of gene names (or other sequence names); Negate parameter is followed by TRUE or FALSE (the default), if TRUE, all sequences except those contained in the genelist file will be extracted; Str is followed by TRUE or FALSE (the default), if TRUE, the genelist parameter requires a string containing a sequence name, or a vector of strings containing multiple sequence names.
+
+```{}
+##Str=TRUE 
+extract_fasta(fasta = "test.fasta",genelist = c("Chr1","Chr2"),outputfile = "list.fasta",Negate = FALSE,Str = TRUE)
+
+##Str=FALSE
+extract_fasta(fasta = "test.fasta",genelist = "list.txt",outputfile = "list.fasta",Negate = FALSE,Str = FALSE)
+```
+
+```{}
+##Negate = TRUE Str=TRUE
+extract_fasta(fasta = "test.fasta",genelist = c("Chr1","Chr2"),outputfile = "Negatelist.fasta",Negate = FALSE,Str = TRUE)
+```
 
 
 ## Reference
