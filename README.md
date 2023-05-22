@@ -225,7 +225,9 @@ extract_downstream(fasta = "test.fasta",gff = "test.gff",outputfile = "downstrea
 ```
 
 ### extract_CDS
-The first three parameters are the same as extract_gene(); the translation parameter is followed by TRUE or FALSE (the default), if TRUE, the CDS sequence will be translated into a protein sequence.
+This function takes five parameters: fasta, gff, outputfile, translation, if.fuzzy.codon. The first three parameters are the same as extract_gene(); the translation parameter is followed by TRUE or FALSE (the default), if TRUE, the CDS sequence will be translated into a protein sequence. if.fuzzy.codon parameter means how fuzzy codons (i.e codon with IUPAC ambiguities) should be handled. Accepted values are: "error": An error will be raised on the first occurence of a fuzzy codon. This is the default. "solve": Fuzzy codons that can be translated non ambiguously to an amino acid or to * (stop codon) will be translated. Ambiguous fuzzy codons will be translated to X. "error.if.X": Fuzzy codons that can be translated non ambiguously to an amino acid or to * (stop codon) will be translated. An error will be raised on the first occurence of an ambiguous fuzzy codon. "X": All fuzzy codons (ambiguous and non-ambiguous) will be translated to X.
+
+Note: If a value other than "error" is accepted, the function will be slowed down considerably.
 
 ```{}
 #translation=FALSE
