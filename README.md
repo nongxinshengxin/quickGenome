@@ -231,13 +231,13 @@ Note: If a value other than "error" is accepted, the function will be slowed dow
 
 ```{}
 #translation=FALSE
-extract_CDS(fasta = "test.fasta",gff = "test.gff",outputfile = "CDS.fasta",translation = FALSE)
+extract_CDS(fasta = "test.fasta",gff = "test.gff",outputfile = "CDS.fasta",translation = FALSE, if.fuzzy.codon="error")
 ```
 
 
 ```{}
 #translation=TRUE
-extract_CDS(fasta = "test.fasta",gff = "test.gff",outputfile = "pep.fasta",translation = FALSE)
+extract_CDS(fasta = "test.fasta",gff = "test.gff",outputfile = "pep.fasta",translation = FALSE, if.fuzzy.codon="error")
 ```
 
 ### extract_fasta
