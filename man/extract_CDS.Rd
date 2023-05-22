@@ -4,7 +4,7 @@
 \alias{extract_CDS}
 \title{Extraction of CDS sequences and protein sequences}
 \usage{
-extract_CDS(fasta, gff, outputfile, translation = FALSE)
+extract_CDS(fasta, gff, outputfile, translation = FALSE, if.fuzzy.codon="error")
 }
 \arguments{
 \item{fasta}{A character vector (of arbitrary length when reading, of length 1 when writing) containing the path(s) to the fasta file(s) to read. Reading files in gzip format (which usually have the '.gz' extension) is supported.
@@ -19,6 +19,17 @@ Note the format of file must be "gff".}
 
 \item{outputfile}{A character vector (of arbitrary length when reading, of length 1 when writing) containing the path(s) to the fasta file(s) to write.}
 \item{translation}{TRUE or FALSE (the default). If TRUE, CDS sequence will be translated into a protein sequence.}
+\item{if.fuzzy.codon}{How fuzzy codons (i.e codon with IUPAC ambiguities) should be handled. Accepted values are:
+
+"error": An error will be raised on the first occurence of a fuzzy codon. This is the default.
+
+"solve": Fuzzy codons that can be translated non ambiguously to an amino acid or to * (stop codon) will be translated. Ambiguous fuzzy codons will be translated to X.
+
+"error.if.X": Fuzzy codons that can be translated non ambiguously to an amino acid or to * (stop codon) will be translated. An error will be raised on the first occurence of an ambiguous fuzzy codon.
+
+"X": All fuzzy codons (ambiguous and non-ambiguous) will be translated to X.
+
+Note: If a value other than "error" is accepted, the function will be slowed down considerably.}
 }
 \description{
 Extraction of CDS sequences and protein sequences
