@@ -34,7 +34,7 @@ extract_downstream<-function(fasta,gff,outputfile,range=2000){
   seq_c<-c()
   for (i in 1:nrow(genedf)){
     chr=as.character(genedf[i,1])
-    chr=DNAdf[which(DNAdf$position==Chr),4]
+    chr=DNAdf[which(DNAdf$position==chr),4]
     id=as.character(genedf[i,7])
     id_c<-append(id_c,id)
     start=as.integer(genedf[i,3])

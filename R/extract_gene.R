@@ -32,7 +32,7 @@ extract_gene<-function(fasta,gff,outputfile){
   seq_c<-c()
   for (i in 1:nrow(genedf)){
     chr=as.character(genedf[i,1])
-    chr=DNAdf[which(DNAdf$position==Chr),4]
+    chr=DNAdf[which(DNAdf$position==chr),4]
     start=as.integer(genedf[i,3])
     end=as.integer(genedf[i,4])
     strand=genedf[i,5]

@@ -17,6 +17,7 @@
 find_telo <- function(filepath,telo="CCCTAA",threshold=1000,minRepeatNum=2) {
   if(class(telo)!="character") { stop("Input telo should be character") }
   if(class(threshold)!="numeric") { stop("Input threshold should be numeric") }
+  try<-try(readDNAStringSet(filepath,format="fasta"))
   if ("try-error" %in% class(try)){
     stop("Check the format of your input fasta file !!!")
   }else{

@@ -11,6 +11,7 @@
 #' @importFrom Biostrings readDNAStringSet letterFrequency
 #' @examples
 genome_basic_Info<-function(filepath){
+  try<-try(readDNAStringSet(filepath,format="fasta"))
   if ("try-error" %in% class(try)){
     stop("Check the format of your input fasta file !!!")
   }else{

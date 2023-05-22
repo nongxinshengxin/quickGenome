@@ -41,21 +41,39 @@ extract_CDS<-function(fasta,gff,outputfile,translation=FALSE){
   cdsdf<-filter(gffdf,type=="CDS")
   cdsdf<-cdsdf%>%mutate(idname=gsub("Parent=","",grep("Parent.*",unlist(strsplit(cdsdf$attribution,";")),value = T)))
 
-  cds_c<-c()
-  for (i in 1:nrow(cdsdf)){
-    chr=as.character(cdsdf[i,1])
-    chr=DNAdf[which(DNAdf$position==Chr),4]
-    start=as.integer(cdsdf[i,3])
-    end=as.integer(cdsdf[i,4])
-    strand=cdsdf[i,5]
-    id=as.character(cdsdf[i,7])
+###### R的for循环太慢了
+  # cds_c<-c()
+  # for (i in 1:nrow(cdsdf)){
+  #   chr=as.character(cdsdf[i,1])
+  #   chr=DNAdf[which(DNAdf$position==chr),4]
+  #   start=as.integer(cdsdf[i,3])
+  #   end=as.integer(cdsdf[i,4])
+  #   strand=cdsdf[i,5]
+  #   id=as.character(cdsdf[i,7])
+  #   seq=subseq(DNA[chr],start=start,end=end)
+  #   seq=toString(seq)
+  #   cds_c<-rbind(cds_c,c(id,seq,strand))
+  # }
+  #
+  # cds_c<-as_tibble(cds_c)%>%pivot_wider(names_from = V1,values_from = V2,values_fill = NA)
+
+  func <- function(x){
+    chr=as.character(x[1])
+    chr=DNAdf[which(DNAdf$position==chr),4]
+    start=as.integer(x[3])
+    end=as.integer(x[4])
+    strand=x[5]
+    id=as.character(x[7])
     seq=subseq(DNA[chr],start=start,end=end)
     seq=toString(seq)
-    cds_c<-rbind(cds_c,c(id,seq,strand))
+    cds_c<-c(id,seq,strand)
+    return(cds_c)
   }
 
-  cds_c<-as_tibble(cds_c)%>%pivot_wider(names_from = V1,values_from = V2,values_fill = NA)
 
+  a3 <- apply(cdsdf,1,func)
+  a3<-t(a3)
+  cds_c<-as_tibble(a3)%>%pivot_wider(names_from = V1,values_from = V2,values_fill = NA)
 
   id_c<-c()
   seq_c<-c()
@@ -101,14 +119,14 @@ extract_CDS<-function(fasta,gff,outputfile,translation=FALSE){
         if (!is.null(unlist(cds_c[1,i]))){
           seq=paste(unlist(cds_c[1,i]),collapse = "")
           seq=DNAString(seq)
-          seq=translate(seq)
+          seq=translate(seq,if.fuzzy.codon="X")
           seq=toString(seq)
         }
         if (!is.null(unlist(cds_c[2,i]))){
           seq=paste(unlist(cds_c[2,i]),collapse = "")
           seq=DNAString(seq)
           seq=reverseComplement(seq)
-          seq=translate(seq)
+          seq=translate(seq,if.fuzzy.codon="X")
           seq=toString(seq)
         }
         seq_c<-append(seq_c,seq)
@@ -121,14 +139,14 @@ extract_CDS<-function(fasta,gff,outputfile,translation=FALSE){
         if (!is.null(unlist(cds_c[2,i]))){
           seq=paste(unlist(cds_c[2,i]),collapse = "")
           seq=DNAString(seq)
-          seq=translate(seq)
+          seq=translate(seq,if.fuzzy.codon="X")
           seq=toString(seq)
         }
         if (!is.null(unlist(cds_c[1,i]))){
           seq=paste(unlist(cds_c[1,i]),collapse = "")
           seq=DNAString(seq)
           seq=reverseComplement(seq)
-          seq=translate(seq)
+          seq=translate(seq,if.fuzzy.codon="X")
           seq=toString(seq)
         }
         seq_c<-append(seq_c,seq)

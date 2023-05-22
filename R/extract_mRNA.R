@@ -32,20 +32,38 @@ extract_mRNA<-function(fasta,gff,outputfile){
   exondf<-filter(gffdf,type=="exon")
   exondf<-exondf%>%mutate(idname=gsub("Parent=","",grep("Parent.*",unlist(strsplit(exondf$attribution,";")),value = T)))
 
-  exon_c<-c()
-  for (i in 1:nrow(exondf)){
-    chr=as.character(exondf[i,1])
-    chr=DNAdf[which(DNAdf$position==Chr),4]
-    start=as.integer(exondf[i,3])
-    end=as.integer(exondf[i,4])
-    strand=exondf[i,5]
-    id=as.character(exondf[i,7])
+  # exon_c<-c()
+  # for (i in 1:nrow(exondf)){
+  #   chr=as.character(exondf[i,1])
+  #   chr=DNAdf[which(DNAdf$position==chr),4]
+  #   start=as.integer(exondf[i,3])
+  #   end=as.integer(exondf[i,4])
+  #   strand=exondf[i,5]
+  #   id=as.character(exondf[i,7])
+  #   seq=subseq(DNA[chr],start=start,end=end)
+  #   seq=toString(seq)
+  #   exon_c<-rbind(exon_c,c(id,seq,strand))
+  # }
+  #
+  # exon_c<-as_tibble(exon_c)%>%pivot_wider(names_from = V1,values_from = V2,values_fill = NA)
+
+  func <- function(x){
+    chr=as.character(x[1])
+    chr=DNAdf[which(DNAdf$position==chr),4]
+    start=as.integer(x[3])
+    end=as.integer(x[4])
+    strand=x[5]
+    id=as.character(x[7])
     seq=subseq(DNA[chr],start=start,end=end)
     seq=toString(seq)
-    exon_c<-rbind(exon_c,c(id,seq,strand))
+    exon_c<-c(id,seq,strand)
+    return(exon_c)
   }
 
-  exon_c<-as_tibble(exon_c)%>%pivot_wider(names_from = V1,values_from = V2,values_fill = NA)
+
+  a3 <- apply(exondf,1,func)
+  a3<-t(a3)
+  exon_c<-as_tibble(a3)%>%pivot_wider(names_from = V1,values_from = V2,values_fill = NA)
 
   id_c<-c()
   seq_c<-c()
